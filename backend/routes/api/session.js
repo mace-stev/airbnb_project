@@ -7,11 +7,10 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
-// Log in
-router.post(
-    '/',
-    async (req, res, next) => {
+// Log in 
+router.post('/', async (req, res, next) => {  
       const { credential, password } = req.body;
+      console.log(req.body);
 
       const user = await User.unscoped().findOne({
         where: {
@@ -22,7 +21,7 @@ router.post(
         }
       });
 
-      if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+      if (!credential || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         const err = new Error('Login failed');
         err.status = 401;
         err.title = 'Login failed';
